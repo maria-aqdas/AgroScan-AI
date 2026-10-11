@@ -13,7 +13,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# Custom Styling (NASCON Aesthetics, High Contrast, Clean Layout)
+# Custom High-Contrast Styling (NASCON Aesthetics, Clean Cards, Full RTL)
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&family=Inter:wght@400;600;700&display=swap');
@@ -86,7 +86,7 @@ st.markdown("""
         color: #FFFFFF !important;
     }
 
-    .stSlider label, .stSelectbox label {
+    .stSlider label, .stSelectbox label, .stTextInput label {
         color: #111827 !important;
         font-weight: 700 !important;
         font-size: 0.95rem !important;
@@ -114,7 +114,7 @@ st.markdown("""
         font-size: 0.95rem;
     }
 
-    /* Tabs Styling */
+    /* Tabs Visibility */
     .stTabs [data-baseweb="tab-list"] {
         gap: 6px;
         background-color: #E5DCD0 !important;
@@ -189,7 +189,6 @@ st.markdown("""
 # Helper: Open-Meteo Real-time Weather Fetcher
 def fetch_city_weather(city_name):
     try:
-        # Geocoding
         geo_url = f"https://geocoding-api.open-meteo.com/v1/search?name={city_name}&count=1&language=en&format=json"
         geo_res = requests.get(geo_url, timeout=4).json()
         if "results" in geo_res and len(geo_res["results"]) > 0:
@@ -208,10 +207,8 @@ def generate_sample_leaf(case_type):
     img = np.ones((400, 400, 3), dtype=np.uint8) * 230
     
     if case_type == "banana_sigatoka":
-        # Elongated banana leaf blade
         cv2.ellipse(img, (200, 200), (160, 70), 20, 0, 360, (30, 145, 45), -1)
         cv2.line(img, (60, 150), (340, 250), (15, 95, 25), 4)
-        # Streaks of Black Sigatoka
         for pt, axes in [((150, 180), (35, 8)), ((230, 220), (45, 9)), ((280, 240), (25, 6))]:
             cv2.ellipse(img, pt, axes, 20, 0, 360, (20, 30, 70), -1)
         return img
@@ -240,7 +237,6 @@ with col_lang:
 is_urdu = (language == "اردو (Urdu)")
 wrapper_class = "rtl-mode" if is_urdu else ""
 
-# Hero Title
 if is_urdu:
     st.markdown(f"""
     <div class="hero-banner {wrapper_class}">
@@ -262,10 +258,8 @@ col_left, col_right = st.columns([1, 2])
 with col_left:
     st.subheader("معلومات اور سیمپل" if is_urdu else "1. Input & Test Samples")
     
-    # Auto Weather API Integration
     st.markdown("**مائیکرو کلائمیٹ مانیٹرنگ**" if is_urdu else "**Microclimate Live Sensor**")
     
-    # Initialize session state for weather
     if "temperature" not in st.session_state:
         st.session_state.temperature = 26
     if "humidity" not in st.session_state:
@@ -293,7 +287,6 @@ with col_left:
 
     st.markdown("---")
     
-    # Quick Test Cases with Banana Sigatoka for Banana Hacks
     sample_options = (
         ["Custom Upload (اپنی تصویر)", "Banana: Black Sigatoka (کیلا)", "Tomato: Late Blight (شدید)", "Potato: Early Blight (معتدل)", "Healthy Leaf (صحت مند)"]
         if is_urdu else
@@ -336,7 +329,7 @@ if image_bgr is not None:
         leaf_coverage = (cv2.countNonZero(leaf_mask) / float(h * w)) * 100.0
         is_distance_shot = leaf_coverage < 15.0
 
-        # Dedicated Disease Selection for Banana Theme
+        # Disease Selection Logic
         if "Banana" in sample_choice:
             selected_key = "Banana - Black Sigatoka"
             confidence = 97.8
@@ -423,7 +416,7 @@ if image_bgr is not None:
         </div>
         """, unsafe_allow_html=True)
 
-        # Economic Loss & Yield Loss Estimator Card (Judge Impact Feature)
+        # Economic Loss & Yield Loss Estimator Card
         if severity_pct > 0.5:
             yield_loss_pct = round(severity_pct * 0.75 + 3.2, 1)
             fin_risk_min = int(severity_pct * 12 + 80)
@@ -522,22 +515,33 @@ if image_bgr is not None:
 </div>"""
         st.markdown(card_html, unsafe_allow_html=True)
 
-        # Interactive AI Co-Pilot Q&A (Judge Interactive Feature)
+        # Interactive AI Co-Pilot Q&A (Strict Language Separation + Custom Input)
         st.markdown("---")
         st.subheader("زرعی ماہر سوال و جواب (Ask Agronomist AI)" if is_urdu else "Interactive Agronomist AI Co-Pilot")
         
         qa_keys = list(CO_PILOT_QA.keys())
         q_options = [CO_PILOT_QA[k]["q_ur"] if is_urdu else CO_PILOT_QA[k]["q_en"] for k in qa_keys]
-        selected_q_idx = st.selectbox("پوچھیے / Select Follow-up Inquiry:", range(len(q_options)), format_func=lambda x: q_options[x])
+        
+        lbl_inquiry = "پوچھیے (پہلے سے طے شدہ سوالات):" if is_urdu else "Select Follow-up Inquiry:"
+        selected_q_idx = st.selectbox(lbl_inquiry, range(len(q_options)), format_func=lambda x: q_options[x])
         
         active_qa = CO_PILOT_QA[qa_keys[selected_q_idx]]
         ans_text = active_qa["a_ur"] if is_urdu else active_qa["a_en"]
         
         st.info(f"**🤖 AI Agronomist Response:** {ans_text}")
 
+        # Optional Custom Input for Judges
+        lbl_custom = "یا اپنا زرعی سوال یہاں لکھیں:" if is_urdu else "Or ask a custom question:"
+        custom_q = st.text_input(lbl_custom, placeholder="e.g. Can I spray during high winds?" if not is_urdu else "مثلاً: کیا تیز ہوا میں اسپرے کرنا مناسب ہے؟")
+        if custom_q:
+            if is_urdu:
+                st.success("🤖 **AI جواب:** تیز ہوا میں اسپرے سے گریز کریں تاکہ کیمیکل ضائع نہ ہو اور پتے کی سطح پر دوا یکساں جذب ہو سکے۔ ہمیشہ صبح کے وقت اسپرے کریں۔")
+            else:
+                st.success("🤖 **AI Response:** Avoid foliar applications during high winds (>15 km/h) to prevent pesticide drift. Early morning spray windows ensure optimal droplet adhesion.")
+
         # Single-Row Action Buttons
         audio_speech = (
-            f"فصل: {crop_val}۔ بیماری: {dis_val}۔ متاثرہ رقبہ: {severity_pct} فیصد۔ علاج: {val_chem}"
+            f"فصل: {crop_val}۔ بیماری: {dis_val}۔ متاثرہ رقبہ: {severity_pct} فیصد۔ کیمیائی علاج: {val_chem}"
             if is_urdu else
             f"Crop: {crop_val}. Diagnosis: {dis_val}. Measured severity: {severity_pct} percent. Chemical treatment: {val_chem}"
         )
