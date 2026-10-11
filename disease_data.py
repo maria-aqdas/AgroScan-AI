@@ -1,4 +1,20 @@
 DISEASE_DB = {
+    "Banana - Black Sigatoka": {
+        "crop_en": "Banana (Musa acuminata)",
+        "crop_ur": "کیلا (Banana)",
+        "disease_en": "Black Sigatoka (Pseudocercospora fijiensis)",
+        "disease_ur": "بلیک سگاٹوکا (پتوں پر سیاہ دھبے)",
+        "pathogen_en": "Ascomycete Fungal Pathogen",
+        "pathogen_ur": "فنگل پیتھوجن (Ascomycete)",
+        "symptoms_en": "Narrow dark reddish-brown foliar streaks parallel to leaf veins expanding into elliptical black necrotic centers.",
+        "symptoms_ur": "پتے کی رگوں کے متوازی لمبوترے بھورے لکیر نما نشانات جو پھیل کر سیاہ مردہ لیسنز بن جاتے ہیں۔",
+        "chem_en": "Apply Difenoconazole or Azoxystrobin (1.5 ml/L) combined with mineral oil to enhance droplet penetration.",
+        "chem_ur": "ڈائی فینوکونازول یا ایزوکسسٹروبن (1.5 ملی لیٹر فی لیٹر) منرل آئل کے ساتھ ملا کر اسپرے کریں۔",
+        "cult_en": "De-leaf severely spotted banana fronds weekly; dig drainage trenches to avoid water stagnancy beneath mats.",
+        "cult_ur": "زیادہ متاثرہ پتوں کو ہفتہ وار کاٹ کر پودے سے دور کریں؛ کیلے کے جھنڈ میں پانی کھڑا نہ ہونے دیں۔",
+        "prev_en": "Maintain 2.5m x 2.5m plantation spacing for sun penetration; scout leaf rank index every 5 days.",
+        "prev_ur": "پودوں کے درمیان مناسب فاصلہ رکھیں تاکہ ہوا اور دھوپ پہنچے؛ ہر 5 دن بعد پتوں کا معائنہ کریں۔"
+    },
     "Tomato - Early Blight": {
         "crop_en": "Tomato",
         "crop_ur": "ٹماٹر",
@@ -62,5 +78,26 @@ DISEASE_DB = {
         "cult_ur": "معمول کے مطابق پانی اور دیکھ بھال جاری رکھیں۔",
         "prev_en": "Continue routine bi-weekly field scouting.",
         "prev_ur": "ہر دو ہفتے بعد معمول کی فیلڈ انسپیکشن جاری رکھیں۔"
+    }
+}
+
+CO_PILOT_QA = {
+    "organic_alt": {
+        "q_en": "What organic alternatives can replace synthetic fungicides?",
+        "q_ur": "کیمیائی اسپرے کی جگہ کون سے نامیاتی (Organic) طریقے استعمال ہو سکتے ہیں؟",
+        "a_en": "Foliar sprays of cold-pressed Neem Oil (0.5% concentration with potassium soap) or Bacillus subtilis bio-fungicide provide effective protection against fungal hyphae in mild stages.",
+        "a_ur": "نیم کا تیل (Neem Oil 0.5%) یا کاپر آکسی کلورائڈ اور بیکٹیریا بیسڈ بائیو فنگسائیڈ ابتدائی لیسنز کو روکنے کے لیے بہترین متبادل ہیں۔"
+    },
+    "tank_mix": {
+        "q_en": "Can I tank-mix fungicide with foliar Urea fertilizer?",
+        "q_ur": "کیا فنگسائیڈ اسپرے کے ساتھ یوریا کھاد ملائی جا سکتی ہے؟",
+        "a_en": "Exercise caution. Do not tank-mix copper-based protectants with acidic foliar fertilizers. For triazoles, jar-test compatibility first and never spray during midday heat (>30°C).",
+        "a_ur": "احتیاط ضروری ہے: کاپر بیسڈ ادویات کے ساتھ تیزابی کھاد نہ ملائیں۔ شدید گرمی (30°C سے زیادہ) میں اسپرے جلاؤ پیدا کر سکتا ہے۔"
+    },
+    "rainfastness": {
+        "q_en": "How many rain-free hours are needed after spraying?",
+        "q_ur": "اسپرے کے بعد دوا جذب ہونے کے لیے کتنے گھنٹے بارش نہ ہونا ضروری ہے؟",
+        "a_en": "Systemic fungicides (e.g., Difenoconazole) require 2 to 4 rain-free hours to achieve full rainfastness. Contact protectants (Mancozeb) will wash off if rain occurs within 6 hours.",
+        "a_ur": "نظامی فنگسائیڈز کے لیے کم از کم 2 سے 4 گھنٹے خشک موسم درکار ہوتا ہے تاکہ دوا پتے میں جذب ہو سکے۔ بارش کا اندیشہ ہو تو سلیکان اسٹیکر شامل کریں۔"
     }
 }
