@@ -32,7 +32,6 @@ Most mobile agriculture apps act as superficial black-box classification wrapper
 4. 🗣️ Delivers multi-tiered agronomic action plans in English and localized Urdu with native voice synthesis!
 
 ---
-
 ## 🏗️ System Architecture 🔄
 
 ```text
@@ -80,8 +79,7 @@ Most mobile agriculture apps act as superficial black-box classification wrapper
                                │ • 🤖 AI Agronomist Co-Pilot Q&A   │
                                └───────────────────────────────────┘
 
-
-
+```
 
 
 ---
