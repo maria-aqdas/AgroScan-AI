@@ -13,7 +13,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# Custom High-Contrast Styling (NASCON Aesthetics, High-Specificity Tab & Button Selectors)
+# Custom High-Contrast Styling
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&family=Inter:wght@400;600;700&display=swap');
@@ -30,7 +30,7 @@ st.markdown("""
         font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', serif;
     }
 
-    /* 1. FETCH & PRIMARY STREAMLIT BUTTON CONTRAST */
+    /* 1. FETCH & PRIMARY BUTTON STYLING */
     div.stButton > button {
         background-color: #2E7D32 !important;
         color: #FFFFFF !important;
@@ -58,68 +58,68 @@ st.markdown("""
         font-weight: 700 !important;
     }
 
-    /* 2. TABS VISIBILITY FIX */
-    [data-testid="stTabs"],
-    [data-baseweb="tab-list"],
-    div[data-baseweb="tab-list"] {
+    /* 2. HIGH-CONTRAST TABS OVERRIDE (#1F2937 unselected, #E53E3E active/hover) */
+    [data-baseweb="tab-list"], .stTabs [role="tablist"] {
         gap: 8px !important;
-        background-color: transparent !important;
-        border-bottom: 2px solid #D1C7BD !important;
-        margin-bottom: 12px !important;
     }
 
-    [data-testid="stTabs"] button,
     [data-baseweb="tab"],
     button[data-baseweb="tab"],
-    button[role="tab"] {
-        background-color: #E6DED5 !important;
-        border-radius: 6px 6px 0 0 !important;
-        padding: 8px 16px !important;
-        border: 1px solid #D1C7BD !important;
-        border-bottom: none !important;
-    }
-
-    /* Unselected tabs text -> solid dark charcoal */
-    [data-testid="stTabs"] button p,
-    [data-testid="stTabs"] button span,
-    [data-testid="stTabs"] button div,
-    button[data-baseweb="tab"] p,
-    button[data-baseweb="tab"] span,
-    button[data-baseweb="tab"] div,
-    [data-baseweb="tab"] p,
-    [data-baseweb="tab"] span {
+    [data-testid="stTabs"] button,
+    .stTabs [role="tab"] {
         color: #1F2937 !important;
-        font-weight: 700 !important;
-        font-size: 0.95rem !important;
-        opacity: 1 !important;
+        font-weight: 600 !important;
+        background-color: rgba(255, 255, 255, 0.75) !important;
+        border-radius: 6px 6px 0px 0px !important;
+        padding: 8px 16px !important;
+        border: 1px solid rgba(0, 0, 0, 0.1) !important;
+        border-bottom: none !important;
+        transition: all 0.2s ease-in-out !important;
     }
 
+    [data-baseweb="tab"] *,
+    [data-testid="stTabs"] button *,
+    .stTabs [role="tab"] * {
+        color: #1F2937 !important;
+        font-weight: 600 !important;
+    }
+
+    [data-baseweb="tab"]:hover,
+    button[data-baseweb="tab"]:hover,
     [data-testid="stTabs"] button:hover,
-    button[data-baseweb="tab"]:hover {
-        background-color: #D8CCC0 !important;
-    }
-    [data-testid="stTabs"] button:hover p,
-    button[data-baseweb="tab"]:hover p {
-        color: #000000 !important;
+    .stTabs [role="tab"]:hover {
+        color: #E53E3E !important;
+        background-color: #FFFFFF !important;
     }
 
-    /* Active / Selected Tab */
-    [data-testid="stTabs"] button[aria-selected="true"],
+    [data-baseweb="tab"]:hover *,
+    [data-testid="stTabs"] button:hover *,
+    .stTabs [role="tab"]:hover * {
+        color: #E53E3E !important;
+    }
+
+    [data-baseweb="tab"][aria-selected="true"],
     button[data-baseweb="tab"][aria-selected="true"],
-    [data-baseweb="tab"][aria-selected="true"] {
-        background-color: #4A0E17 !important;
-        border-color: #4A0E17 !important;
+    [data-testid="stTabs"] button[aria-selected="true"],
+    .stTabs [role="tab"][aria-selected="true"] {
+        color: #E53E3E !important;
+        font-weight: 700 !important;
+        background-color: #FFFFFF !important;
+        border-bottom: 3px solid #E53E3E !important;
     }
 
-    [data-testid="stTabs"] button[aria-selected="true"] p,
-    [data-testid="stTabs"] button[aria-selected="true"] span,
-    button[data-baseweb="tab"][aria-selected="true"] p,
-    button[data-baseweb="tab"][aria-selected="true"] span {
-        color: #FBE8A6 !important;
-        font-weight: 800 !important;
+    [data-baseweb="tab"][aria-selected="true"] *,
+    [data-testid="stTabs"] button[aria-selected="true"] *,
+    .stTabs [role="tab"][aria-selected="true"] * {
+        color: #E53E3E !important;
+        font-weight: 700 !important;
     }
 
-    /* 3. SUB-HEADERS & CAPTIONS */
+    [data-baseweb="tab-highlight"] {
+        background-color: #E53E3E !important;
+    }
+
+    /* 3. SUB-HEADERS & CAPTIONS READABILITY */
     h2, h3, h4, .stMarkdown h3, .stMarkdown h4 {
         color: #111827 !important;
         font-weight: 800 !important;
@@ -304,7 +304,7 @@ def generate_sample_leaf(case_type):
         cv2.circle(img, (230, 240), 16, (20, 50, 110), -1)
     return img
 
-# Header & Strict Language Selector
+# Header & Language Selector
 col_h, col_lang = st.columns([3, 1])
 with col_lang:
     language = st.selectbox("🌐 Interface Language", ["English", "اردو (Urdu)"])
