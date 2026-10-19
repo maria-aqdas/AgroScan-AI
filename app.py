@@ -13,7 +13,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# Custom High-Contrast Styling (NASCON Aesthetics, Clean Cards, Full Contrast Overrides)
+# Custom High-Contrast Styling (NASCON Aesthetics, High-Specificity Tab & Button Selectors)
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&family=Inter:wght@400;600;700&display=swap');
@@ -30,9 +30,7 @@ st.markdown("""
         font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', serif;
     }
 
-    /* ========================================================
-       1. "FETCH" & PRIMARY STREAMLIT BUTTON CONTRAST FIX
-       ======================================================== */
+    /* 1. FETCH & PRIMARY STREAMLIT BUTTON CONTRAST */
     div.stButton > button {
         background-color: #2E7D32 !important;
         color: #FFFFFF !important;
@@ -54,82 +52,88 @@ st.markdown("""
         transform: translateY(-1px);
     }
 
-    div.stButton > button:active {
-        background-color: #144417 !important;
-        color: #E0E0E0 !important;
-        transform: translateY(0);
-    }
-
     div.stButton > button p,
     div.stButton > button span {
         color: #FFFFFF !important;
         font-weight: 700 !important;
     }
 
-    /* ========================================================
-       2. TABS & VISUALIZER SELECTORS HIGH-CONTRAST FIX
-       ======================================================== */
+    /* 2. TABS VISIBILITY FIX */
+    [data-testid="stTabs"],
+    [data-baseweb="tab-list"],
     div[data-baseweb="tab-list"] {
-        background-color: #EAE6DF !important;
-        padding: 6px 8px 0 8px !important;
-        border-radius: 8px 8px 0 0 !important;
-        border-bottom: 2px solid #C5A059 !important;
-        gap: 6px !important;
+        gap: 8px !important;
+        background-color: transparent !important;
+        border-bottom: 2px solid #D1C7BD !important;
+        margin-bottom: 12px !important;
     }
 
-    div[data-baseweb="tab"] {
-        background-color: #D6CEC2 !important;
+    [data-testid="stTabs"] button,
+    [data-baseweb="tab"],
+    button[data-baseweb="tab"],
+    button[role="tab"] {
+        background-color: #E6DED5 !important;
         border-radius: 6px 6px 0 0 !important;
-        padding: 9px 18px !important;
-        transition: all 0.2s ease !important;
+        padding: 8px 16px !important;
+        border: 1px solid #D1C7BD !important;
+        border-bottom: none !important;
     }
 
-    div[data-baseweb="tab"] p,
-    div[data-baseweb="tab"] span,
-    div[data-baseweb="tab"] div {
-        color: #1A1A1A !important;
+    /* Unselected tabs text -> solid dark charcoal */
+    [data-testid="stTabs"] button p,
+    [data-testid="stTabs"] button span,
+    [data-testid="stTabs"] button div,
+    button[data-baseweb="tab"] p,
+    button[data-baseweb="tab"] span,
+    button[data-baseweb="tab"] div,
+    [data-baseweb="tab"] p,
+    [data-baseweb="tab"] span {
+        color: #1F2937 !important;
         font-weight: 700 !important;
         font-size: 0.95rem !important;
+        opacity: 1 !important;
     }
 
-    div[data-baseweb="tab"]:hover {
-        background-color: #C8BEB0 !important;
+    [data-testid="stTabs"] button:hover,
+    button[data-baseweb="tab"]:hover {
+        background-color: #D8CCC0 !important;
     }
-    div[data-baseweb="tab"]:hover p,
-    div[data-baseweb="tab"]:hover span {
+    [data-testid="stTabs"] button:hover p,
+    button[data-baseweb="tab"]:hover p {
         color: #000000 !important;
     }
 
-    div[data-baseweb="tab"][aria-selected="true"] {
+    /* Active / Selected Tab */
+    [data-testid="stTabs"] button[aria-selected="true"],
+    button[data-baseweb="tab"][aria-selected="true"],
+    [data-baseweb="tab"][aria-selected="true"] {
         background-color: #4A0E17 !important;
+        border-color: #4A0E17 !important;
     }
 
-    div[data-baseweb="tab"][aria-selected="true"] p,
-    div[data-baseweb="tab"][aria-selected="true"] span,
-    div[data-baseweb="tab"][aria-selected="true"] div {
+    [data-testid="stTabs"] button[aria-selected="true"] p,
+    [data-testid="stTabs"] button[aria-selected="true"] span,
+    button[data-baseweb="tab"][aria-selected="true"] p,
+    button[data-baseweb="tab"][aria-selected="true"] span {
         color: #FBE8A6 !important;
         font-weight: 800 !important;
     }
 
-    /* ========================================================
-       3. SUB-HEADERS & CAPTIONS READABILITY
-       ======================================================== */
+    /* 3. SUB-HEADERS & CAPTIONS */
     h2, h3, h4, .stMarkdown h3, .stMarkdown h4 {
-        color: #1A1A1A !important;
+        color: #111827 !important;
         font-weight: 800 !important;
     }
 
     [data-testid="stImageCaption"] {
-        color: #222222 !important;
+        color: #1F2937 !important;
         font-weight: 600 !important;
         font-size: 0.9rem !important;
         text-align: center !important;
         margin-top: 6px !important;
     }
 
-    /* ========================================================
-       4. RADIO BUTTONS & INPUT CONTROLS
-       ======================================================== */
+    /* 4. RADIO BUTTONS & INPUT CONTROLS */
     div[role="radiogroup"] label {
         color: #111827 !important;
         font-weight: 600 !important;
@@ -386,7 +390,6 @@ with col_left:
 if image_bgr is not None:
     image_rgb = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2RGB)
 
-    # Computer Vision Execution
     is_leaf, severity_pct, leaf_mask, lesion_mask, overlay_bgr = verify_and_analyze_leaf(image_bgr)
 
     if not is_leaf:
@@ -395,12 +398,10 @@ if image_bgr is not None:
     else:
         overlay_rgb = cv2.cvtColor(overlay_bgr, cv2.COLOR_BGR2RGB)
 
-        # Foliage Distance Check
         h, w = image_bgr.shape[:2]
         leaf_coverage = (cv2.countNonZero(leaf_mask) / float(h * w)) * 100.0
         is_distance_shot = leaf_coverage < 15.0
 
-        # Disease Selection Logic
         if "Banana" in sample_choice:
             selected_key = "Banana - Black Sigatoka"
             confidence = 97.8
@@ -414,7 +415,6 @@ if image_bgr is not None:
 
         info = DISEASE_DB[selected_key]
 
-        # Stage & Visual Indicators
         if selected_key == "Healthy Foliage" or severity_pct < 1.0:
             stage_en = "Healthy / No Infection Detected"
             stage_ur = "کوئی انفیکشن نہیں / بالکل صحت مند"
@@ -436,7 +436,7 @@ if image_bgr is not None:
             badge_class = "badge-stage-3"
             scale_color = "#EF4444"
 
-        tab_titles = ["تشخیص شدہ اوورلے", "لیسن ماسک (OpenCV)", "اصل تصویر"] if is_urdu else ["Diagnostic Overlay", "Lesion Mask (OpenCV)", "Raw Foliage"]
+        tab_titles = ["Diagnostic Overlay", "Lesion Mask (OpenCV)", "Raw Foliage"] if not is_urdu else ["تشخیص شدہ اوورلے", "لیسن ماسک (OpenCV)", "اصل تصویر"]
         
         with col_right:
             st.subheader("کمپیوٹر وژن لیسن اینالیسس" if is_urdu else "2. Computer Vision Inspection Visualizer")
@@ -455,7 +455,6 @@ if image_bgr is not None:
 
         st.markdown("---")
 
-        # 3. Diagnostic Findings & Metrics
         st.subheader("تشخیصی نتائج اور میٹرکس" if is_urdu else "3. Diagnostic Findings & Quantitative Metrics")
         
         crop_val = info.get("crop_ur", "نامعلوم فصل") if is_urdu else info.get("crop_en", "Unknown Crop")
@@ -487,7 +486,6 @@ if image_bgr is not None:
         </div>
         """, unsafe_allow_html=True)
 
-        # Economic Loss & Yield Loss Estimator Card
         if severity_pct > 0.5:
             yield_loss_pct = round(severity_pct * 0.75 + 3.2, 1)
             fin_risk_min = int(severity_pct * 12 + 80)
@@ -516,7 +514,6 @@ if image_bgr is not None:
             </div>
             """, unsafe_allow_html=True)
 
-        # Severity Assessment Bar
         lbl_assess = "نقصان کی شدت کا تعین:" if is_urdu else "Clinical Stage Assessment:"
         badge_text = stage_ur if is_urdu else stage_en
         st.markdown(f"""
@@ -531,7 +528,6 @@ if image_bgr is not None:
         </div>
         """, unsafe_allow_html=True)
 
-        # Environmental Warning
         if humidity > 70 and severity_pct > 1.0:
             w_title = "موسمیاتی الرٹ (زیادہ نمی)" if is_urdu else "Microclimate Spore Warning"
             w_text = f"ہوا میں نمی {humidity}% ریکارڈ کی گئی ہے۔ مرطوب موسم میں فنگس تیزی سے پھیلتی ہے۔ تجویز ہے کہ کھڑی فصل پر پانی کا اسپرنکلر بند رکھیں اور تجویز کردہ دوا فوری اسپرے کریں۔" if is_urdu else f"Ambient humidity ({humidity}%) drastically accelerates spore dispersion. Suspend overhead sprinklers and initiate target fungicide protocol."
@@ -541,7 +537,6 @@ if image_bgr is not None:
             </div>
             """, unsafe_allow_html=True)
 
-        # Section 4: Detailed 3-Part Agronomic Prescription Card
         rx_header = "جامع زرعی نسخہ اور عملی گائیڈنس" if is_urdu else "Actionable Agronomic Prescription"
         rx_intro = (
             "یہ کلینیکل ایڈوائزری آٹومیٹڈ لیسن سیگمنٹیشن اور مائیکرو کلائمیٹ خطرات کو یکجا کرتی ہے تاکہ فصل کے نقصان کو کم سے کم رکھا جا سکے۔"
@@ -586,7 +581,6 @@ if image_bgr is not None:
 </div>"""
         st.markdown(card_html, unsafe_allow_html=True)
 
-        # Interactive AI Co-Pilot Q&A (Strict Language Separation + Custom Input)
         st.markdown("---")
         st.subheader("زرعی ماہر سوال و جواب (Ask Agronomist AI)" if is_urdu else "Interactive Agronomist AI Co-Pilot")
         
@@ -601,7 +595,6 @@ if image_bgr is not None:
         
         st.info(f"**🤖 AI Agronomist Response:** {ans_text}")
 
-        # Optional Custom Input for Judges
         lbl_custom = "یا اپنا زرعی سوال یہاں لکھیں:" if is_urdu else "Or ask a custom question:"
         custom_q = st.text_input(lbl_custom, placeholder="e.g. Can I spray during high winds?" if not is_urdu else "مثلاً: کیا تیز ہوا میں اسپرے کرنا مناسب ہے؟")
         if custom_q:
@@ -610,7 +603,6 @@ if image_bgr is not None:
             else:
                 st.success("🤖 **AI Response:** Avoid foliar applications during high winds (>15 km/h) to prevent pesticide drift. Early morning spray windows ensure optimal droplet adhesion.")
 
-        # Single-Row Action Buttons
         audio_speech = (
             f"فصل: {crop_val}۔ بیماری: {dis_val}۔ متاثرہ رقبہ: {severity_pct} فیصد۔ کیمیائی علاج: {val_chem}"
             if is_urdu else
