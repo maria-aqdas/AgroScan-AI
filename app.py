@@ -13,7 +13,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# Custom High-Contrast Styling (NASCON Aesthetics, Clean Cards, Full RTL)
+# Custom High-Contrast Styling (NASCON Aesthetics, Clean Cards, Full Contrast Overrides)
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&family=Inter:wght@400;600;700&display=swap');
@@ -30,7 +30,106 @@ st.markdown("""
         font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', serif;
     }
 
-    /* Radio Buttons */
+    /* ========================================================
+       1. "FETCH" & PRIMARY STREAMLIT BUTTON CONTRAST FIX
+       ======================================================== */
+    div.stButton > button {
+        background-color: #2E7D32 !important;
+        color: #FFFFFF !important;
+        font-weight: 700 !important;
+        font-size: 0.95rem !important;
+        border: 1px solid #1B5E20 !important;
+        border-radius: 8px !important;
+        padding: 8px 18px !important;
+        transition: all 0.25s ease !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12) !important;
+    }
+
+    div.stButton > button:hover,
+    div.stButton > button:focus {
+        background-color: #1B5E20 !important;
+        color: #FFFFFF !important;
+        border-color: #0D3311 !important;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+        transform: translateY(-1px);
+    }
+
+    div.stButton > button:active {
+        background-color: #144417 !important;
+        color: #E0E0E0 !important;
+        transform: translateY(0);
+    }
+
+    div.stButton > button p,
+    div.stButton > button span {
+        color: #FFFFFF !important;
+        font-weight: 700 !important;
+    }
+
+    /* ========================================================
+       2. TABS & VISUALIZER SELECTORS HIGH-CONTRAST FIX
+       ======================================================== */
+    div[data-baseweb="tab-list"] {
+        background-color: #EAE6DF !important;
+        padding: 6px 8px 0 8px !important;
+        border-radius: 8px 8px 0 0 !important;
+        border-bottom: 2px solid #C5A059 !important;
+        gap: 6px !important;
+    }
+
+    div[data-baseweb="tab"] {
+        background-color: #D6CEC2 !important;
+        border-radius: 6px 6px 0 0 !important;
+        padding: 9px 18px !important;
+        transition: all 0.2s ease !important;
+    }
+
+    div[data-baseweb="tab"] p,
+    div[data-baseweb="tab"] span,
+    div[data-baseweb="tab"] div {
+        color: #1A1A1A !important;
+        font-weight: 700 !important;
+        font-size: 0.95rem !important;
+    }
+
+    div[data-baseweb="tab"]:hover {
+        background-color: #C8BEB0 !important;
+    }
+    div[data-baseweb="tab"]:hover p,
+    div[data-baseweb="tab"]:hover span {
+        color: #000000 !important;
+    }
+
+    div[data-baseweb="tab"][aria-selected="true"] {
+        background-color: #4A0E17 !important;
+    }
+
+    div[data-baseweb="tab"][aria-selected="true"] p,
+    div[data-baseweb="tab"][aria-selected="true"] span,
+    div[data-baseweb="tab"][aria-selected="true"] div {
+        color: #FBE8A6 !important;
+        font-weight: 800 !important;
+    }
+
+    /* ========================================================
+       3. SUB-HEADERS & CAPTIONS READABILITY
+       ======================================================== */
+    h2, h3, h4, .stMarkdown h3, .stMarkdown h4 {
+        color: #1A1A1A !important;
+        font-weight: 800 !important;
+    }
+
+    [data-testid="stImageCaption"] {
+        color: #222222 !important;
+        font-weight: 600 !important;
+        font-size: 0.9rem !important;
+        text-align: center !important;
+        margin-top: 6px !important;
+    }
+
+    /* ========================================================
+       4. RADIO BUTTONS & INPUT CONTROLS
+       ======================================================== */
     div[role="radiogroup"] label {
         color: #111827 !important;
         font-weight: 600 !important;
@@ -112,34 +211,6 @@ st.markdown("""
     .hero-sub {
         color: #E5CBA8;
         font-size: 0.95rem;
-    }
-
-    /* Tabs Visibility */
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 6px;
-        background-color: #E5DCD0 !important;
-        padding: 6px 8px 0 8px !important;
-        border-radius: 8px 8px 0 0 !important;
-    }
-    .stTabs [data-baseweb="tab"] {
-        color: #374151 !important;
-        font-weight: 700 !important;
-        padding: 8px 18px !important;
-        border-radius: 6px 6px 0 0 !important;
-        background-color: #D8CCC0 !important;
-        opacity: 1 !important;
-    }
-    .stTabs [data-baseweb="tab"] div, .stTabs [data-baseweb="tab"] p, .stTabs [data-baseweb="tab"] span {
-        color: #374151 !important;
-        font-weight: 700 !important;
-    }
-    .stTabs [aria-selected="true"] {
-        background-color: #4A0E17 !important;
-        color: #FBE8A6 !important;
-    }
-    .stTabs [aria-selected="true"] div, .stTabs [aria-selected="true"] p, .stTabs [aria-selected="true"] span {
-        color: #FBE8A6 !important;
-        font-weight: 700 !important;
     }
 
     /* KPI Cards */
@@ -621,6 +692,7 @@ if image_bgr is not None:
         function playAudio() {{
             window.speechSynthesis.cancel();
             var status = document.getElementById('ttsStatus');
+            var btn = document.getElementById('ttsBtn');
             var msg = new SpeechSynthesisUtterance('{clean_speech}');
             msg.lang = '{lang_code}';
             
